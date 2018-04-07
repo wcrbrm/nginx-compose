@@ -1,0 +1,9 @@
+default:
+  HOST: "garasjeportmotor.no"
+
+redirect:
+  name:
+    - "##{HOST}"
+    - "www.##{HOST}"
+  to:
+    - "new.location.com

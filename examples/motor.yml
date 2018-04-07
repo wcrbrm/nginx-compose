@@ -1,0 +1,10 @@
+default:
+  HOST: "garasjeportmotor.no"
+  ROOT: "/home/vds/htdocs/portspesialisten.com"
+
+server:
+  name:
+    - "##{HOST}"
+    - "www.##{HOST}"
+  root:
+    - "##{ROOT}/cdn/lmev

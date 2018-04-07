@@ -1,0 +1,48 @@
+defaults:
+  HOST: ansatt.a10
+  HTDOCS: "/home/vds/htdocs/ansatt"
+  STATIC_FILES: "~ .(xml|html|zip|tar|tgz|txt)$"
+
+templates:
+  local_static:
+    - "expires: max"
+    - "root: ##{HTDOCS}"
+  fastcgi:
+    - "fastcgi_pass   unix:/var/run/php-fpm/fpm-vds"
+    - "fastcgi_param  SCRIPT_FILENAME  ##{HTDOCS}/index.php"
+    - "fastcgi_param: HTTP_REFERER $http_referer"
+    - "fastcgi_intercept_errors: on"
+    - "include: fastcgi_params"
+
+server:
+  name: "##{HOST}"
+  deny:
+    -"~ /\."
+    -"~ \.(jade|phtml)"
+  each:
+    location:
+      - "proxy_set_header X-GeoIP-Country-Code $geoip_country_code"
+      - "error_log /var/log/nginx/nginx-##{HOST}-##{LOCATION}.log"
+  locations:
+    patch:
+      url: "= /patch.php"
+      template: "fastcgi"
+      logging: off
+    test:
+      url: "= /test.php"
+      template: "fastcgi"
+      logging: off
+    static:
+      url: /static/
+      template: "local_static"
+    cdn:
+      url: /cdn/
+      template: "local_static"
+    root-static:
+      url: "##{STATIC_FILES}"
+      template: "local_static"
+      logging: "off"
+    root:
+      url: "/"
+      template: "fastcgi"
+      include_conf: "redirects.conf"
