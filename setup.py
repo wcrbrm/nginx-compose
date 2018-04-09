@@ -7,7 +7,7 @@ setup(
    author='Web Cerebrium',
    author_email='webcerebrium@gmail.com',
    packages=['nginx-compose'],  #same as name
-   install_requires=["yaml"], #external packages as dependencies
+   install_requires=["pyyaml"], #external packages as dependencies
    scripts=[
     'nginx-compose.py'
    ]

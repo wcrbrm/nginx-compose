@@ -1,8 +1,10 @@
 # nginx-compose
+
 Nginx config generation based on YAML file
 
-nginx compose
-```
+nginx compose:
+
+```txt
   -) reads configuration file
   -) build collection of var
   -) build collection of temlates
